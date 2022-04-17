@@ -5,17 +5,9 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import services.Url;
-import utils.PropertiesManager;
 import utils.SmartLogger;
 import utils.StringUtils;
-
 import java.util.Set;
-
-import static services.Paths.*;
-import static services.Paths.MAIN_RESOURCES_PATH;
-import static services.ProjectFiles.*;
-import static services.ProjectFiles.CONFIG;
 
 public class Browser {
 
@@ -63,12 +55,6 @@ public class Browser {
     public static void goTo(String url) {
         SmartLogger.logInfo("Go to url - %s.".concat(url));
         getBrowser().goTo(url);
-    }
-
-    public static void goToAuthorization(String userName, String userPassword, String url) {
-        String currentUrl = PropertiesManager.getValue(MAIN_RESOURCES_PATH.getPath(), CONFIG.getFile(), Url.HTTP.getUrl()).
-                concat(userName).concat(":").concat(userPassword).concat("@").concat(url);
-        Browser.goTo(currentUrl);
     }
 
     public static void quit() {
