@@ -15,13 +15,7 @@ public interface IWebTable extends IElement {
 
     List<List<String>> getBody();
 
-    <T extends IElement> List<String> getList(List<T> list);
-
     <T extends IElement> List<List<String>> getBodyList(List<T> list);
-
-    <T extends IElement> List<IElement> getBodyListElements();
-
-    <T extends IElement> List<IElement> getHeadListElements();
 
     int getColumnSize();
 
@@ -30,4 +24,10 @@ public interface IWebTable extends IElement {
     void clickCell(int row, int column);
 
     void clickHeadCell(int column);
+
+    <T extends IElement> List<String> getList(List<T> list);
+
+    <T extends IElement> List<IElement> getBodyListElements();
+
+    <T extends IElement> List<IElement> getHeadListElements();
 }
