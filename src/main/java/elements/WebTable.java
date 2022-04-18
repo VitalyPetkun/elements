@@ -42,15 +42,6 @@ public class WebTable extends Element implements IWebTable {
         return this.getBodyList(this.getBodyListElements());
     }
 
-    public <T extends IElement> List<String> getList(List<T> list) {
-        List<String> newList = new ArrayList<>();
-        for (T element : list) {
-            newList.add(element.getText());
-        }
-
-        return newList;
-    }
-
     public <T extends IElement> List<List<String>> getBodyList(List<T> list) {
         List<List<String>> newList = new ArrayList<>();
         for (int i = 0; i < getBodyRowSize(); i++) {
@@ -61,16 +52,6 @@ public class WebTable extends Element implements IWebTable {
         }
 
         return newList;
-    }
-
-    public <T extends IElement> List<IElement> getBodyListElements() {
-        return getElementFactory().findElements(By.xpath(getLocator().toString().concat(LOCATOR_BODY)),
-                "Table body", IElement.class);
-    }
-
-    public <T extends IElement> List<IElement> getHeadListElements() {
-        return getElementFactory().findElements(By.xpath(getLocator().toString().concat(LOCATOR_HEAD)),
-                "Table head", IElement.class);
     }
 
     public int getColumnSize() {
@@ -89,5 +70,23 @@ public class WebTable extends Element implements IWebTable {
 
     public void clickHeadCell(int column) {
         this.getHeadListElements().get(column).clickAndWait();
+    }
+
+    public <T extends IElement> List<String> getList(List<T> list) {
+        List<String> newList = new ArrayList<>();
+        for (T element : list) {
+            newList.add(element.getText());
+        }
+
+        return newList;
+    }
+
+    public <T extends IElement> List<IElement> getBodyListElements() {
+        this.findChildElement(By.xpath(LOCATOR_BODY), "Table body", IElement.class);
+        return this.findChildElements(By.xpath(LOCATOR_BODY), "Table body", IElement.class);
+    }
+
+    public <T extends IElement> List<IElement> getHeadListElements() {
+        return this.findChildElements(By.xpath(LOCATOR_HEAD), "Table head", IElement.class);
     }
 }
