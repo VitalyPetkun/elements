@@ -9,6 +9,10 @@ public class CurrencyRatesPageSteps {
 
     private CurrencyRatesPageSteps() {}
 
+    public static String getCurrencyRate(String rowName, String columnName) {
+        return currencyRatesPage.getCurrencyRate(rowName, columnName);
+    }
+
     public static void assertIsOpen() {
         Assert.assertTrue(currencyRatesPage.state().isDisplayed());
     }

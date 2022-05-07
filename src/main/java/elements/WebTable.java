@@ -3,6 +3,7 @@ package elements;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.elements.Element;
 import aquality.selenium.elements.interfaces.IElement;
+import aquality.selenium.elements.interfaces.ILink;
 import elements.interfaces.IWebTable;
 import org.openqa.selenium.By;
 
@@ -11,8 +12,12 @@ import java.util.List;
 
 public class WebTable extends Element implements IWebTable {
 
-    private final String LOCATOR_BODY = "//tbody//tr";
-    private final String LOCATOR_HEAD = "//tr//th";
+    private final String LOCATOR_HEAD = "//thead//tr//th";
+    private final String LOCATOR_BODY_ROW = "//tbody//tr";
+    private final String LOCATOR_BODY_CELL = "//td";
+
+    private List<List<String>> body;
+    private List<String> head;
 
     protected WebTable(By locator, String name, ElementState state) {
         super(locator, name, state);
@@ -23,48 +28,85 @@ public class WebTable extends Element implements IWebTable {
     }
 
     public String getHeadCell(int column) {
-        return this.getList(this.getHeadListElements()).get(column);
+        return this.getHead().get(column);
     }
 
-    public String getCell(int row, int column) {
-        return this.getBodyList(this.getBodyListElements()).get(row).get(column);
+    public String getBodyCell(int row, int column) {
+        return this.getBody().get(row).get(column);
+    }
+
+    public String getBodyCell(String rowName, String columnName) {
+        return this.getBody()
+                .get(this.getRowIndex(rowName))
+                .get(this.getHead().indexOf(columnName));
+    }
+
+    public int getRowIndex(String rowName) {
+        int row = -1;
+        for (List<String> rowList : this.getBody()) {
+            if (row < 0)
+                row = rowList.indexOf(rowName);
+        }
+
+        return row;
     }
 
     public List<String> getHead() {
-        return this.getList(this.getHeadListElements());
+        if (head == null)
+            head = this.getList(this.getHeadListElements());
+
+        return head;
     }
 
     public List<String> getBodyRow(int row) {
-        return this.getBodyList(this.getBodyListElements()).get(row);
+        return this.getBody().get(row);
+    }
+
+    public List<String> getBodyRow(String rowName) {
+        return this.getBody().get(this.getRowIndex(rowName));
+    }
+
+    public List<String> getBodyColumn(String columnName) {
+        int column = this.getHead().indexOf(columnName);
+        List<String> columnList = new ArrayList<>();
+        for (List<String> rowList:
+             this.getBody()) {
+            columnList.add(rowList.get(column));
+        }
+
+        return columnList;
     }
 
     public List<List<String>> getBody() {
-        return this.getBodyList(this.getBodyListElements());
+        if (body == null)
+            body = this.getBodyList(this.getBodyListElements());
+
+        return body;
     }
 
     public <T extends IElement> List<List<String>> getBodyList(List<T> list) {
         List<List<String>> newList = new ArrayList<>();
-        for (int i = 0; i < getBodyRowSize(); i++) {
-            List<IElement> row = new ArrayList<>();
-            row.add(list.get(i));
+        for (int i = 0; i < this.getBodyRowSize(); i++) {
+            List<ILink> rowList = new ArrayList<>();
+            rowList.addAll(list.get(i).findChildElements(By.xpath(LOCATOR_BODY_CELL), ILink.class));
 
-            newList.add(this.getList(row));
+            newList.add(this.getList(rowList));
         }
 
         return newList;
     }
 
     public int getColumnSize() {
-        return this.getHeadListElements().size();
+        return this.getHead().size();
     }
 
     public int getBodyRowSize() {
-        return this.getBodyListElements().size();
+        return this.getBody().size();
     }
 
     public void clickCell(int row, int column) {
-        List<IElement> rowList = new ArrayList<>();
-        rowList.add(this.getBodyListElements().get(row));
+        List<ILink> rowList = new ArrayList<>();
+        rowList.addAll(this.getBodyListElements().get(row).findChildElements(By.xpath(LOCATOR_BODY_CELL), ILink.class));
         rowList.get(column).clickAndWait();
     }
 
@@ -81,11 +123,11 @@ public class WebTable extends Element implements IWebTable {
         return newList;
     }
 
-    public <T extends IElement> List<IElement> getBodyListElements() {
-        return this.findChildElements(By.xpath(LOCATOR_BODY), "Table body", IElement.class);
+    public List<ILink> getBodyListElements() {
+        return this.findChildElements(By.xpath(LOCATOR_BODY_ROW), "Table body", ILink.class);
     }
 
-    public <T extends IElement> List<IElement> getHeadListElements() {
-        return this.findChildElements(By.xpath(LOCATOR_HEAD), "Table head", IElement.class);
+    public List<ILink> getHeadListElements() {
+        return this.findChildElements(By.xpath(LOCATOR_HEAD), "Table head", ILink.class);
     }
 }
