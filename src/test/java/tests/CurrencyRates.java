@@ -5,11 +5,12 @@ import org.testng.annotations.Test;
 import services.Paths;
 import services.ProjectFiles;
 import services.Url;
+import steps.CurrencyRatesPageSteps;
 import steps.MainPageSteps;
 import utils.PropertiesManager;
 import utils.SmartLogger;
 
-public class CurrencyRates {
+public class CurrencyRates extends BaseTest {
 
     private final String MYFIN_URL = PropertiesManager.getValue(Paths.MAIN_RESOURCES_PATH.getPath(),
             ProjectFiles.CONFIG.getFile(), Url.MYFIN_URL.getUrl());
@@ -22,6 +23,6 @@ public class CurrencyRates {
 
         SmartLogger.logStep(2, "Open currency rates page.");
         MainPageSteps.clickCurrencyRates();
-
+        CurrencyRatesPageSteps.assertIsOpen();
     }
 }
