@@ -9,6 +9,10 @@ public class MainPageSteps {
 
     private MainPageSteps() {}
 
+    public static void clickCurrencyRates() {
+        mainPage.clickCurrencyRates();
+    }
+
     public static void assertIsOpen() {
         Assert.assertTrue(mainPage.state().isDisplayed(), "Main page isn't opened.");
     }

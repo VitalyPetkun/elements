@@ -16,8 +16,12 @@ public class CurrencyRates {
 
     @Test
     private void currentUsDollarRate() {
-        SmartLogger.logStep(1, "Open web site.");
+        SmartLogger.logStep(1, "Open main page.");
         Browser.goTo(MYFIN_URL);
         MainPageSteps.assertIsOpen();
+
+        SmartLogger.logStep(2, "Open currency rates page.");
+        MainPageSteps.clickCurrencyRates();
+
     }
 }
