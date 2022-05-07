@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import services.Paths;
 import services.ProjectFiles;
 import services.Url;
+import steps.MainPageSteps;
 import utils.PropertiesManager;
 import utils.SmartLogger;
 
@@ -17,6 +18,6 @@ public class CurrencyRates {
     private void currentUsDollarRate() {
         SmartLogger.logStep(1, "Open web site.");
         Browser.goTo(MYFIN_URL);
-
+        MainPageSteps.assertIsOpen();
     }
 }

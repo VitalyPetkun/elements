@@ -2,8 +2,8 @@ package services;
 
 public enum Paths {
 
-    MAIN_RESOURCES_PATH("mainResourcesPath"),
-    TEST_RESOURCES_PATH("testResourcesPath");
+    MAIN_RESOURCES_PATH("src/main/resources/"),
+    TEST_RESOURCES_PATH("src/test/resources/");
 
     private String path;
 
