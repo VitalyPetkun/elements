@@ -2,8 +2,8 @@ package services;
 
 public enum ProjectFiles {
 
-    CONFIG("configFileName"),
-    TEST_DATA("testDataFileName");
+    CONFIG("config.properties"),
+    TEST_DATA("testData.properties");
 
     private String file;
 
