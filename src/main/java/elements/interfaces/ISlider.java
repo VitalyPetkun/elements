@@ -9,7 +9,7 @@ public interface ISlider extends IElement {
 
     String getMax();
 
-    void setValue(String value);
+    void setValue(int value);
 
     void plusOne();
 

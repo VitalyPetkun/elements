@@ -82,7 +82,6 @@ public class WebTable extends Element implements IWebTable {
     }
 
     public <T extends IElement> List<IElement> getBodyListElements() {
-        this.findChildElement(By.xpath(LOCATOR_BODY), "Table body", IElement.class);
         return this.findChildElements(By.xpath(LOCATOR_BODY), "Table body", IElement.class);
     }
 

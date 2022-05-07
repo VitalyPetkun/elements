@@ -32,16 +32,15 @@ public class Slider extends Element implements ISlider {
         return this.getAttribute(ATTRIBUTE_MAX);
     }
 
-    public void setValue(String value) {
-        int setValue = Integer.parseInt(value);
+    public void setValue(int value) {
         int currentValue = Integer.parseInt(this.getValue());
 
-        if (currentValue < setValue)
-            for (int i = currentValue; i < setValue; i++)
+        if (currentValue < value)
+            for (int i = currentValue; i < value; i++)
                 this.plusOne();
 
-        if (currentValue > setValue)
-            for (int i = currentValue; i > setValue; i--)
+        if (currentValue > value)
+            for (int i = currentValue; i > value; i--)
                 this.minusOne();
     }
 
