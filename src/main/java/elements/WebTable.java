@@ -12,11 +12,11 @@ import java.util.List;
 
 public class WebTable extends Element implements IWebTable {
 
-    private final String LOCATOR_HEAD_ROW = "//thead//tr";
-    private final String LOCATOR_HEAD_CELL = "//th";
-    private final String LOCATOR_BODY_CELL = "//td";
+    private final String HEAD_ROW_LOCATOR = "//thead//tr";
+    private final String HEAD_CELL_LOCATOR = "//th";
+    private final String BODY_CELL_LOCATOR = "//td";
 
-    private String LOCATOR_BODY_ROW = "//tbody//tr";
+    private String BODY_ROW_LOCATOR = "//tbody//tr";
     private List<List<String>> body;
     private List<List<String>> head;
 
@@ -29,7 +29,7 @@ public class WebTable extends Element implements IWebTable {
     }
 
     public void setBodyRowByXpathLocator(String locator) {
-        LOCATOR_BODY_ROW = locator;
+        BODY_ROW_LOCATOR = locator;
     }
 
     public String getHeadCell(int row, int column) {
@@ -46,13 +46,11 @@ public class WebTable extends Element implements IWebTable {
                 .get(this.getHead().get(0).indexOf(columnName));
     }
 
-    @Override
     public String getBodyRowName(String valueCell, int columnIndex) {
         int rowIndex = this.getRowNameIndex(valueCell, columnIndex, this.getBody());
         return this.getBody().get(rowIndex).get(0);
     }
 
-    @Override
     public int getRowNameIndex(String valueCell, int columnIndex, List<List<String>> list) {
         int row = -1;
         for (int i = 0; i < list.size(); i++){
@@ -122,7 +120,7 @@ public class WebTable extends Element implements IWebTable {
         List<List<String>> newList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             List<ILink> rowList = new ArrayList<>();
-            rowList.addAll(list.get(i).findChildElements(By.xpath(LOCATOR_HEAD_CELL), ILink.class));
+            rowList.addAll(list.get(i).findChildElements(By.xpath(HEAD_CELL_LOCATOR), ILink.class));
 
             newList.add(this.getList(rowList));
         }
@@ -134,7 +132,7 @@ public class WebTable extends Element implements IWebTable {
         List<List<String>> newList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             List<ILink> rowList = new ArrayList<>();
-            rowList.addAll(list.get(i).findChildElements(By.xpath(LOCATOR_BODY_CELL), ILink.class));
+            rowList.addAll(list.get(i).findChildElements(By.xpath(BODY_CELL_LOCATOR), ILink.class));
 
             newList.add(this.getList(rowList));
         }
@@ -144,7 +142,7 @@ public class WebTable extends Element implements IWebTable {
 
     public void clickCell(int row, int column) {
         List<ILink> rowList = new ArrayList<>();
-        rowList.addAll(this.getBodyListElements().get(row).findChildElements(By.xpath(LOCATOR_BODY_CELL), ILink.class));
+        rowList.addAll(this.getBodyListElements().get(row).findChildElements(By.xpath(BODY_CELL_LOCATOR), ILink.class));
         rowList.get(column).clickAndWait();
     }
 
@@ -162,10 +160,10 @@ public class WebTable extends Element implements IWebTable {
     }
 
     public List<ILink> getBodyListElements() {
-        return this.findChildElements(By.xpath(LOCATOR_BODY_ROW), "Table body", ILink.class);
+        return this.findChildElements(By.xpath(BODY_ROW_LOCATOR), "Table body", ILink.class);
     }
 
     public List<ILink> getHeadListElements() {
-        return this.findChildElements(By.xpath(LOCATOR_HEAD_ROW), "Table head", ILink.class);
+        return this.findChildElements(By.xpath(HEAD_ROW_LOCATOR), "Table head", ILink.class);
     }
 }
