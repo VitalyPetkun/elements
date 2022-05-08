@@ -6,6 +6,8 @@ import aquality.selenium.elements.interfaces.ILink;
 import java.util.List;
 
 public interface IWebTable extends IElement {
+    void setBodyRowByXpathLocator(String locator);
+
     String getHeadCell(int column);
 
     String getBodyCell(int row, int column);

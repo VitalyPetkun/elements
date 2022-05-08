@@ -13,9 +13,9 @@ import java.util.List;
 public class WebTable extends Element implements IWebTable {
 
     private final String LOCATOR_HEAD = "//thead//tr//th";
-    private final String LOCATOR_BODY_ROW = "//tbody//tr";
     private final String LOCATOR_BODY_CELL = "//td";
 
+    private String LOCATOR_BODY_ROW = "//tbody//tr";
     private List<List<String>> body;
     private List<String> head;
 
@@ -25,6 +25,10 @@ public class WebTable extends Element implements IWebTable {
 
     protected String getElementType() {
         return this.getLocalizationManager().getLocalizedMessage("Table", new Object[0]);
+    }
+
+    public void setBodyRowByXpathLocator(String locator) {
+        LOCATOR_BODY_ROW = locator;
     }
 
     public String getHeadCell(int column) {
@@ -86,7 +90,7 @@ public class WebTable extends Element implements IWebTable {
 
     public <T extends IElement> List<List<String>> getBodyList(List<T> list) {
         List<List<String>> newList = new ArrayList<>();
-        for (int i = 0; i < this.getBodyRowSize(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             List<ILink> rowList = new ArrayList<>();
             rowList.addAll(list.get(i).findChildElements(By.xpath(LOCATOR_BODY_CELL), ILink.class));
 
