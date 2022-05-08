@@ -8,29 +8,33 @@ import java.util.List;
 public interface IWebTable extends IElement {
     void setBodyRowByXpathLocator(String locator);
 
-    String getHeadCell(int column);
+    String getHeadCell(int row, int column);
 
     String getBodyCell(int row, int column);
 
     String getBodyCell(String rowName, String columnName);
 
-    int getRowIndex(String rowName);
+    String getBodyRowName(String valueCell, int columnIndex);
 
-    List<String> getHead();
+    int getRowNameIndex(String valueCell, int columnIndex, List<List<String>> list);
+
+    int getRowIndex(String rowName, List<List<String>> list);
+
+    List<List<String>> getHead();
+
+    List<List<String>> getBody();
 
     List<String> getBodyRow(int row);
 
     List<String> getBodyRow(String rowName);
 
+    List<String> getBodyColumn(int columnIndex);
+
     List<String> getBodyColumn(String columnName);
 
-    List<List<String>> getBody();
+    <T extends IElement> List<List<String>> getHeadList(List<T> list);
 
     <T extends IElement> List<List<String>> getBodyList(List<T> list);
-
-    int getColumnSize();
-
-    int getBodyRowSize();
 
     void clickCell(int row, int column);
 

@@ -12,12 +12,13 @@ import java.util.List;
 
 public class WebTable extends Element implements IWebTable {
 
-    private final String LOCATOR_HEAD = "//thead//tr//th";
+    private final String LOCATOR_HEAD_ROW = "//thead//tr";
+    private final String LOCATOR_HEAD_CELL = "//th";
     private final String LOCATOR_BODY_CELL = "//td";
 
     private String LOCATOR_BODY_ROW = "//tbody//tr";
     private List<List<String>> body;
-    private List<String> head;
+    private List<List<String>> head;
 
     protected WebTable(By locator, String name, ElementState state) {
         super(locator, name, state);
@@ -31,8 +32,8 @@ public class WebTable extends Element implements IWebTable {
         LOCATOR_BODY_ROW = locator;
     }
 
-    public String getHeadCell(int column) {
-        return this.getHead().get(column);
+    public String getHeadCell(int row, int column) {
+        return this.getHead().get(row).get(column);
     }
 
     public String getBodyCell(int row, int column) {
@@ -41,13 +42,32 @@ public class WebTable extends Element implements IWebTable {
 
     public String getBodyCell(String rowName, String columnName) {
         return this.getBody()
-                .get(this.getRowIndex(rowName))
-                .get(this.getHead().indexOf(columnName));
+                .get(this.getRowIndex(rowName, this.getBody()))
+                .get(this.getHead().get(0).indexOf(columnName));
     }
 
-    public int getRowIndex(String rowName) {
+    @Override
+    public String getBodyRowName(String valueCell, int columnIndex) {
+        int rowIndex = this.getRowNameIndex(valueCell, columnIndex, this.getBody());
+        return this.getBody().get(rowIndex).get(0);
+    }
+
+    @Override
+    public int getRowNameIndex(String valueCell, int columnIndex, List<List<String>> list) {
         int row = -1;
-        for (List<String> rowList : this.getBody()) {
+        for (int i = 0; i < list.size(); i++){
+            if(list.get(i).indexOf(valueCell) == columnIndex){
+                row = i;
+                break;
+            }
+        }
+
+        return row;
+    }
+
+    public int getRowIndex(String rowName, List<List<String>> list) {
+        int row = -1;
+        for (List<String> rowList : list) {
             if (row < 0)
                 row = rowList.indexOf(rowName);
         }
@@ -55,30 +75,11 @@ public class WebTable extends Element implements IWebTable {
         return row;
     }
 
-    public List<String> getHead() {
+    public List<List<String>> getHead() {
         if (head == null)
-            head = this.getList(this.getHeadListElements());
+            head = this.getHeadList(this.getHeadListElements());
 
         return head;
-    }
-
-    public List<String> getBodyRow(int row) {
-        return this.getBody().get(row);
-    }
-
-    public List<String> getBodyRow(String rowName) {
-        return this.getBody().get(this.getRowIndex(rowName));
-    }
-
-    public List<String> getBodyColumn(String columnName) {
-        int column = this.getHead().indexOf(columnName);
-        List<String> columnList = new ArrayList<>();
-        for (List<String> rowList:
-             this.getBody()) {
-            columnList.add(rowList.get(column));
-        }
-
-        return columnList;
     }
 
     public List<List<String>> getBody() {
@@ -86,6 +87,47 @@ public class WebTable extends Element implements IWebTable {
             body = this.getBodyList(this.getBodyListElements());
 
         return body;
+    }
+
+    public List<String> getBodyRow(int row) {
+        return this.getBody().get(row);
+    }
+
+    public List<String> getBodyRow(String rowName) {
+        return this.getBody().get(this.getRowIndex(rowName, this.getBody()));
+    }
+
+    public List<String> getBodyColumn(int columnIndex) {
+        List<String> columnList = new ArrayList<>();
+        for (List<String> rowList :
+                this.getBody()) {
+            columnList.add(rowList.get(columnIndex));
+        }
+
+        return columnList;
+    }
+
+    public List<String> getBodyColumn(String columnName) {
+        int column = this.getHead().get(0).indexOf(columnName);
+        List<String> columnList = new ArrayList<>();
+        for (List<String> rowList :
+                this.getBody()) {
+            columnList.add(rowList.get(column));
+        }
+
+        return columnList;
+    }
+
+    public <T extends IElement> List<List<String>> getHeadList(List<T> list) {
+        List<List<String>> newList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            List<ILink> rowList = new ArrayList<>();
+            rowList.addAll(list.get(i).findChildElements(By.xpath(LOCATOR_HEAD_CELL), ILink.class));
+
+            newList.add(this.getList(rowList));
+        }
+
+        return newList;
     }
 
     public <T extends IElement> List<List<String>> getBodyList(List<T> list) {
@@ -98,14 +140,6 @@ public class WebTable extends Element implements IWebTable {
         }
 
         return newList;
-    }
-
-    public int getColumnSize() {
-        return this.getHead().size();
-    }
-
-    public int getBodyRowSize() {
-        return this.getBody().size();
     }
 
     public void clickCell(int row, int column) {
@@ -132,6 +166,6 @@ public class WebTable extends Element implements IWebTable {
     }
 
     public List<ILink> getHeadListElements() {
-        return this.findChildElements(By.xpath(LOCATOR_HEAD), "Table head", ILink.class);
+        return this.findChildElements(By.xpath(LOCATOR_HEAD_ROW), "Table head", ILink.class);
     }
 }
