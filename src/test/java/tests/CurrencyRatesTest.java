@@ -20,6 +20,8 @@ public class CurrencyRatesTest extends BaseTest {
             TEST_DATA.getFile(), TestDataVariables.CURRENCY_BANK_BUYING_USD_COLUMN_INDEX.getVariable());
     private final String CURRENCY_BANK_SALE_USD_COLUMN_INDEX = PropertiesManager.getValue(TEST_RESOURCES_PATH.getPath(),
             TEST_DATA.getFile(), TestDataVariables.CURRENCY_BANK_SALE_USD_COLUMN_INDEX.getVariable());
+    private final String DATE = PropertiesManager.getValue(TEST_RESOURCES_PATH.getPath(),
+            TEST_DATA.getFile(), TestDataVariables.DATE.getVariable());
     private final String CURRENCY_NAME = "Доллар США";
     private final String CURRENCY_STATE_BUYING = "Покупка";
     private final String CURRENCY_STATE_SALE = "Продажа";
@@ -48,5 +50,21 @@ public class CurrencyRatesTest extends BaseTest {
                 CURRENCY_BANK_SALE_USD_COLUMN_INDEX, BANK_NAME);
 
         CurrencyRatesPageSteps.softAssertAll("Test isn't success.");
+    }
+
+    @Test
+    private void selectDate() {
+        SmartLogger.logStep(1, "Open main page.");
+        Browser.goTo(MYFIN_URL);
+        MainPageSteps.assertIsOpen();
+
+        SmartLogger.logStep(2, "Open currency rates page.");
+        MainPageSteps.clickCurrencyRates();
+        CurrencyRatesPageSteps.assertIsOpen();
+
+        SmartLogger.logStep(3, "Select date.");
+        CurrencyRatesPageSteps.clickSelectDateLnk();
+        CurrencyRatesPageSteps.setDate(DATE);
+        CurrencyRatesPageSteps.assertIsCorrectDate(DATE);
     }
 }

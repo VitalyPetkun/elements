@@ -4,7 +4,7 @@ public enum TestDataVariables {
 
     CURRENCY_BANK_BUYING_USD_COLUMN_INDEX("currencyBankBuyingUsdColumnIndex"),
     CURRENCY_BANK_SALE_USD_COLUMN_INDEX("currencyBankSaleUsdColumnIndex"),
-    BANK_NAME("bankName");
+    DATE("date");
 
     private String variable;
 
