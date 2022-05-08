@@ -1,13 +1,17 @@
 package browser;
 
 import aquality.selenium.browser.AqualityServices;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import services.Paths;
 import utils.SmartLogger;
 import utils.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 
 public class Browser {
@@ -92,6 +96,12 @@ public class Browser {
         String screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE).toString();
         String[] screenshotInfo = {StringUtils.deleteAllExceptNumbers(screenshot), screenshot.split("\\.")[1]};
         return screenshotInfo;
+    }
+
+    public static void takeScreenshotTest(String name) throws IOException {
+        SmartLogger.logInfo("Take screenshot.");
+        File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(scrFile, new File(String.format(Paths.IMAGES_TESTS.getPath(), name)));
     }
 
     public static void timeouts() {

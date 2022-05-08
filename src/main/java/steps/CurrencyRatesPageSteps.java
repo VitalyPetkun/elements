@@ -66,7 +66,8 @@ public class CurrencyRatesPageSteps {
     }
 
     public static void assertIsCorrectDate(String date) {
-        Assert.assertEquals(StringUtils.replaceSymbolBySpace(getSelectedDateLnk()), date, "Date wasn't correct.");
+        Assert.assertEquals(StringUtils.replaceSymbolBySpace(getSelectedDateLnk()), StringUtils.replaceSymbolBySpace(date),
+                "Date wasn't correct.");
     }
 
     public static void softAssertAll(String message) {
