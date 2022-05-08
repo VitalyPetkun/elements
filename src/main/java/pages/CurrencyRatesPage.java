@@ -27,8 +27,11 @@ public class CurrencyRatesPage extends Form {
         return bestRates.getBodyCell(rowName, columnName);
     }
 
-    public List<String> getBankRates(String columnName) {
-        return bankRates.getBodyColumn(columnName);
+    public List<String> getBankRates(int columnIndex) {
+        return bankRates.getBodyColumn(columnIndex);
     }
 
+    public String getBankName(String valueCurrency, int columnIndex) {
+        return bankRates.getBodyRowName(valueCurrency, columnIndex);
+    }
 }

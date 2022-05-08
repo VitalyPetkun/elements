@@ -2,7 +2,9 @@ package services;
 
 public enum TestDataVariables {
 
-    CUR_NAME("curName");
+    CURRENCY_BANK_BUYING_USD_COLUMN_INDEX("currencyBankBuyingUsdColumnIndex"),
+    CURRENCY_BANK_SALE_USD_COLUMN_INDEX("currencyBankSaleUsdColumnIndex"),
+    BANK_NAME("bankName");
 
     private String variable;
 

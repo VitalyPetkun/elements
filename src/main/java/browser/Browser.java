@@ -7,6 +7,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import utils.SmartLogger;
 import utils.StringUtils;
+
 import java.util.Set;
 
 public class Browser {
