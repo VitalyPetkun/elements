@@ -2,8 +2,8 @@ package elements.interfaces;
 
 import aquality.selenium.elements.interfaces.IElement;
 
-
 public interface IImage extends IElement {
+
     void save(String imageName);
 
     void save(String imageName, String path);
@@ -13,4 +13,6 @@ public interface IImage extends IElement {
     String getAttributeSrc();
 
     String getFullFileName();
+
+    String setFullFileName(String imageName, String path);
 }

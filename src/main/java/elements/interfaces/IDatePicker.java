@@ -7,27 +7,6 @@ import aquality.selenium.elements.interfaces.ILabel;
 import java.util.List;
 
 public interface IDatePicker extends IElement {
-    void setDate(int day, int month, int year);
-
-    IButton getNextBtn();
-
-    IButton getPrevBtn();
-
-    ILabel getCurrentDayLbl();
-
-    ILabel getCurrentMonthLbl();
-
-    ILabel getCurrentYearLbl();
-
-    IButton getDayBtn();
-
-    IButton getMonthBtn();
-
-    IButton getYearBtn();
-
-    IButton getSelectedYearBtn();
-
-    IButton getSelectedMonthAndYearBtn();
 
     void clickNext();
 
@@ -39,15 +18,37 @@ public interface IDatePicker extends IElement {
 
     void clickYear();
 
-    void clickSelectedMonthAndYear();
-
     void clickSelectedYear();
 
-    void selectYear(int year);
+    void clickSelectedMonthAndYear();
+
+    void selectDay(int day);
 
     void selectMonth(int month);
 
-    void selectDay(int day);
+    void selectYear(int year);
+
+    void setDate(int day, int month, int year);
+
+    IButton getNextBtn();
+
+    IButton getPrevBtn();
+
+    IButton getDayBtn();
+
+    IButton getMonthBtn();
+
+    IButton getYearBtn();
+
+    IButton getSelectedYearBtn();
+
+    IButton getSelectedMonthAndYearBtn();
+
+    ILabel getCurrentDayLbl();
+
+    ILabel getCurrentMonthLbl();
+
+    ILabel getCurrentYearLbl();
 
     int getMonthNumber(String month);
 

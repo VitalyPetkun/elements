@@ -4,6 +4,8 @@ public enum TestDataVariables {
 
     CURRENCY_BANK_BUYING_USD_COLUMN_INDEX("currencyBankBuyingUsdColumnIndex"),
     CURRENCY_BANK_SALE_USD_COLUMN_INDEX("currencyBankSaleUsdColumnIndex"),
+    CURRENCY_BANK_BUYING_EUR_COLUMN_INDEX("currencyBankBuyingEurColumnIndex"),
+    CURRENCY_BANK_SALE_EUR_COLUMN_INDEX("currencyBankSaleEurColumnIndex"),
     DATE("date"),
     NAME_MAIN_NEWS_IMAGE("nameMainNewsImage"),
     NAME_WALLET_NEWS_IMAGE("nameWalletNewsImage");

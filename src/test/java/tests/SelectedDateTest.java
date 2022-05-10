@@ -16,6 +16,8 @@ public class SelectedDateTest extends BaseTest {
     private final String DATE = PropertiesManager.getValue(TEST_RESOURCES_PATH.getPath(),
             TEST_DATA.getFile(), TestDataVariables.DATE.getVariable());
 
+    private String currentDate;
+
     @Test
     private void selectDate() {
         SmartLogger.logStep(1, "Open main page.");
@@ -27,9 +29,13 @@ public class SelectedDateTest extends BaseTest {
         CurrencyRatesPageSteps.assertIsOpen();
 
         SmartLogger.logStep(3, "Select date.");
+        currentDate = CurrencyRatesPageSteps.getCurrentDate();
         CurrencyRatesPageSteps.clickSelectDateLnk();
         CurrencyRatesPageSteps.setDate(DATE);
         CurrencyRatesPageSteps.assertIsCorrectDate(DATE);
+
+        SmartLogger.logStep(4, "Compare date.");
+        CurrencyRatesPageSteps.assertCompareDate(currentDate);
 
         Browser.takeScreenshotTest(this.getClass().getName());
     }
