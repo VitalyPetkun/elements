@@ -98,10 +98,14 @@ public class Browser {
         return screenshotInfo;
     }
 
-    public static void takeScreenshotTest(String name) throws IOException {
+    public static void takeScreenshotTest(String name) {
         SmartLogger.logInfo("Take screenshot.");
-        File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(scrFile, new File(String.format(Paths.IMAGES_TESTS.getPath(), name)));
+        try {
+            File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(scrFile, new File(String.format(Paths.SCREENSHOT_TESTS_PATH.getPath(), name)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void timeouts() {

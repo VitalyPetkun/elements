@@ -6,7 +6,7 @@ import aquality.selenium.elements.interfaces.ILabel;
 
 import java.util.List;
 
-public interface IDatePicker  extends IElement {
+public interface IDatePicker extends IElement {
     void setDate(int day, int month, int year);
 
     IButton getNextBtn();

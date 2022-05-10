@@ -2,16 +2,15 @@ package elements.interfaces;
 
 import aquality.selenium.elements.interfaces.IElement;
 
-public interface IImage  extends IElement {
+
+public interface IImage extends IElement {
     void save(String imageName);
 
     void save(String imageName, String path);
 
-    void saveWithoutRepeatImage(String imageName);
+    Boolean compare(String imageName);
 
-    void saveWithoutRepeatImage(String imageName, String path);
+    String getAttributeSrc();
 
-    void saveWithoutRepeatImageName(String imageName);
-
-    void saveWithoutRepeatImageName(String imageName, String path);
+    String getFullFileName();
 }
