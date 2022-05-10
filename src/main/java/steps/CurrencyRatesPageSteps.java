@@ -45,6 +45,14 @@ public class CurrencyRatesPageSteps {
         currencyRatesPage.setDate(day, month, year);
     }
 
+    public static String getCurrentDate() {
+        List<String> dateList = currencyRatesPage.getCurrentDate();
+        String date = dateList.get(0).concat(" ").concat(dateList.get(1)).concat(" ")
+                .concat(dateList.get(2));
+
+        return date;
+    }
+
     public static void softAssertIsCorrectCurrencyRatesBuyingState(String currencyName, String state, String columnIndex) {
         softAssert.assertEquals(ListUtils.biggestValue(CurrencyRatesPageSteps.getBankRates(columnIndex)),
                 getCurrencyRate(currencyName, state), "Currency rates buying state wasn't correct.");
@@ -68,6 +76,10 @@ public class CurrencyRatesPageSteps {
     public static void assertIsCorrectDate(String date) {
         Assert.assertEquals(StringUtils.replaceSymbolBySpace(getSelectedDateLnk()), StringUtils.replaceSymbolBySpace(date),
                 "Date wasn't correct.");
+    }
+
+    public static void assertCompareDate(String date) {
+        Assert.assertNotEquals(getCurrentDate(), date, "Dates are same.");
     }
 
     public static void softAssertAll(String message) {

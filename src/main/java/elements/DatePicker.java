@@ -1,5 +1,6 @@
 package elements;
 
+import aquality.selenium.browser.AqualityServices;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.elements.Element;
 import aquality.selenium.elements.interfaces.IButton;
@@ -44,6 +45,56 @@ public class DatePicker extends Element implements IDatePicker {
         return this.getLocalizationManager().getLocalizedMessage("Date picker", new Object[0]);
     }
 
+    public void clickNext() {
+        this.getNextBtn().click();
+    }
+
+    public void clickPrev() {
+        this.getPrevBtn().click();
+    }
+
+    public void clickDay() {
+        this.getDayBtn().click();
+    }
+
+    public void clickMonth() {
+        this.getMonthBtn().click();
+    }
+
+    public void clickYear() {
+        this.getYearBtn().click();
+    }
+
+    public void clickSelectedYear() {
+        this.getSelectedYearBtn().click();
+    }
+
+    public void clickSelectedMonthAndYear() {
+        this.getSelectedMonthAndYearBtn().click();
+    }
+
+    public void selectDay(int day) {
+        List<ILink> days = this.findChildElements(By.xpath(DAY_LOCATOR), "Day in data picker", ILink.class);
+        days.get(--day).click();
+    }
+
+    public void selectMonth(int month) {
+        List<ILink> months = this.findChildElements(By.xpath(MONTH_LOCATOR), "Month in data picker", ILink.class);
+        months.get(--month).click();
+    }
+
+    public void selectYear(int year) {
+        List<ILink> years = this.findChildElements(By.xpath(YEAR_LOCATOR), "Year in data picker", ILink.class);
+        for (ILink severalYear : years) {
+            if (year == Integer.parseInt(severalYear.getText())) {
+                severalYear.click();
+                return;
+            }
+        }
+        this.clickPrev();
+        this.selectYear(year);
+    }
+
     public void setDate(int day, int month, int year) {
         this.clickSelectedMonthAndYear();
         this.clickSelectedYear();
@@ -64,27 +115,6 @@ public class DatePicker extends Element implements IDatePicker {
             prevBtn = this.findChildElement(By.xpath(PREV_LOCATOR), "Prev button", IButton.class);
 
         return prevBtn;
-    }
-
-    public ILabel getCurrentDayLbl() {
-        if (currentDay == null)
-            currentDay = this.findChildElement(By.xpath(CURRENT_DAY_LOCATOR), "Current day", ILabel.class);
-
-        return currentDay;
-    }
-
-    public ILabel getCurrentMonthLbl() {
-        if (currentMonth == null)
-            currentMonth = this.findChildElement(By.xpath(CURRENT_MONTH_LOCATOR), "Current month", ILabel.class);
-
-        return currentMonth;
-    }
-
-    public ILabel getCurrentYearLbl() {
-        if (currentYear == null)
-            currentYear = this.findChildElement(By.xpath(CURRENT_YEAR_LOCATOR), "Current year", ILabel.class);
-
-        return currentYear;
     }
 
     public IButton getDayBtn() {
@@ -110,7 +140,8 @@ public class DatePicker extends Element implements IDatePicker {
 
     public IButton getSelectedYearBtn() {
         if (selectedYearBtn == null)
-            selectedYearBtn = this.findChildElement(By.xpath(SELECTED_YEAR_LOCATOR), "Selected year button", IButton.class);
+            selectedYearBtn = this.findChildElement(By.xpath(SELECTED_YEAR_LOCATOR),
+                    "Selected year button", IButton.class);
 
         return selectedYearBtn;
     }
@@ -123,57 +154,27 @@ public class DatePicker extends Element implements IDatePicker {
         return selectedMonthAndYearBtn;
     }
 
-    public void clickNext() {
-        this.getNextBtn().click();
+    public ILabel getCurrentDayLbl() {
+        if (currentDay == null)
+            currentDay = this.findChildElement(By.xpath(CURRENT_DAY_LOCATOR), "Current day", ILabel.class);
+
+        return currentDay;
     }
 
-    public void clickPrev() {
-        this.getPrevBtn().click();
+    public ILabel getCurrentMonthLbl() {
+        if (currentMonth == null)
+            currentMonth = this.findChildElement(By.xpath(CURRENT_MONTH_LOCATOR), "Current month", ILabel.class);
+
+        return currentMonth;
     }
 
-    public void clickDay() {
-        this.getDayBtn().click();
+    public ILabel getCurrentYearLbl() {
+        if (currentYear == null)
+            currentYear = this.findChildElement(By.xpath(CURRENT_YEAR_LOCATOR), "Current year", ILabel.class);
+
+        return currentYear;
     }
 
-    public void clickMonth() {
-        this.getMonthBtn().click();
-    }
-
-    public void clickYear() {
-        this.getYearBtn().click();
-    }
-
-    public void clickSelectedMonthAndYear() {
-        this.getSelectedMonthAndYearBtn().click();
-    }
-
-    public void clickSelectedYear() {
-        this.getSelectedYearBtn().click();
-    }
-
-    public void selectYear(int year) {
-        List<ILink> years = this.findChildElements(By.xpath(YEAR_LOCATOR), "Year in data picker", ILink.class);
-        for (ILink severalYear : years) {
-            if (year == Integer.parseInt(severalYear.getText())) {
-                severalYear.click();
-                return;
-            }
-        }
-        this.clickPrev();
-        this.selectYear(year);
-    }
-
-    public void selectMonth(int month) {
-        List<ILink> months = this.findChildElements(By.xpath(MONTH_LOCATOR), "Month in data picker", ILink.class);
-        months.get(--month).click();
-    }
-
-    public void selectDay(int day) {
-        List<ILink> days = this.findChildElements(By.xpath(DAY_LOCATOR), "Day in data picker", ILink.class);
-        days.get(--day).click();
-    }
-
-    @Override
     public int getMonthNumber(String month) {
         switch (month) {
             case "янв":
@@ -207,9 +208,14 @@ public class DatePicker extends Element implements IDatePicker {
 
     public List<String> getDate() {
         List<String> date = new ArrayList<>();
+
         date.add(this.getCurrentDayLbl().getText());
-        date.add(this.getCurrentMonthLbl().getText());
+        this.clickSelectedMonthAndYear();
+        date.add(String.valueOf(this.getMonthNumber(this.getCurrentMonthLbl().getText())));
+        this.clickSelectedYear();
         date.add(this.getCurrentYearLbl().getText());
+
+        AqualityServices.getBrowser().getDriver().navigate().refresh();
 
         return date;
     }

@@ -58,4 +58,9 @@ public class CurrencyRatesPage extends Form {
     public void setDate(int day, int month, int year) {
         datePicker.setDate(day, month, year);
     }
+
+    public List<String> getCurrentDate() {
+        clickSelectDateLnk();
+        return datePicker.getDate();
+    }
 }

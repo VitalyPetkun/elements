@@ -3,7 +3,6 @@ package elements;
 import aquality.selenium.browser.AqualityServices;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.elements.Element;
-import browser.Browser;
 import elements.interfaces.IImage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,7 +24,7 @@ public class Image extends Element implements IImage {
     private final String SAVE_IMAGES_PATH = Paths.IMAGES_PATH.getPath();
     private final String FORMAT_NAME = "png";
 
-    private String SRC_ATTRIBUTE = "src";
+    private String srcAttribute = "src";
     private String src = null;
     private String fullFileName = null;
 
@@ -76,7 +75,7 @@ public class Image extends Element implements IImage {
             SmartLogger.logError("Robot not create");
         }
 
-        Browser.goBack();
+        AqualityServices.getBrowser().goBack();
     }
 
     @Override
@@ -93,7 +92,7 @@ public class Image extends Element implements IImage {
                     int rgb = image1.getRGB(col, row);
                     int rgb2 = image2.getRGB(col, row);
 
-                    if (image1.getWidth() != image2.getWidth() || image1.getHeight() != image2.getHeight()){
+                    if (image1.getWidth() != image2.getWidth() || image1.getHeight() != image2.getHeight()) {
                         return false;
                     } else if (rgb != rgb2) {
                         return false;
@@ -110,7 +109,7 @@ public class Image extends Element implements IImage {
 
     public String getAttributeSrc() {
         if (src == null)
-            src = AqualityServices.getBrowser().getDriver().findElement(this.getLocator()).getAttribute(SRC_ATTRIBUTE);
+            src = AqualityServices.getBrowser().getDriver().findElement(this.getLocator()).getAttribute(srcAttribute);
 
         return src;
     }
