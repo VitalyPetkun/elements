@@ -9,8 +9,6 @@ import elements.interfaces.IDatePicker;
 import elements.interfaces.IWebTable;
 import org.openqa.selenium.By;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 public class CurrencyRatesPage extends Form {

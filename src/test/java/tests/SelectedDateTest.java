@@ -8,8 +8,6 @@ import steps.MainPageSteps;
 import utils.PropertiesManager;
 import utils.SmartLogger;
 
-import java.io.IOException;
-
 import static services.Paths.TEST_RESOURCES_PATH;
 import static services.ProjectFiles.TEST_DATA;
 
@@ -19,7 +17,7 @@ public class SelectedDateTest extends BaseTest {
             TEST_DATA.getFile(), TestDataVariables.DATE.getVariable());
 
     @Test
-    private void selectDate() throws IOException {
+    private void selectDate() {
         SmartLogger.logStep(1, "Open main page.");
         Browser.goTo(MYFIN_URL);
         MainPageSteps.assertIsOpen();
