@@ -8,6 +8,8 @@ import aquality.selenium.elements.interfaces.ILabel;
 import aquality.selenium.elements.interfaces.ILink;
 import elements.interfaces.IDatePicker;
 import org.openqa.selenium.By;
+import utils.SmartLogger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,10 +65,22 @@ public class DatePicker extends Element implements IDatePicker {
     }
     public void selectDay(int day) {
         List<ILink> days = this.findChildElements(By.xpath(DAY_LOCATOR), "Day in data picker", ILink.class);
+        if(day > days.size())
+            try {
+                throw new IndexOutOfBoundsException();
+            } catch (IndexOutOfBoundsException exception) {
+                SmartLogger.logError("Uncorrected day");
+            }
         days.get(--day).click();
     }
     public void selectMonth(int month) {
         List<ILink> months = this.findChildElements(By.xpath(MONTH_LOCATOR), "Month in data picker", ILink.class);
+        if(month > months.size())
+            try {
+                throw new IndexOutOfBoundsException();
+            } catch (IndexOutOfBoundsException exception) {
+                SmartLogger.logError("Uncorrected month");
+            }
         months.get(--month).click();
     }
     public void selectYear(int year) {
