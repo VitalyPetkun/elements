@@ -7,6 +7,7 @@ import aquality.selenium.elements.interfaces.ILabel;
 import aquality.selenium.elements.interfaces.ILink;
 import aquality.selenium.forms.Form;
 import org.openqa.selenium.By;
+import utils.SmartLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -359,6 +360,12 @@ public class CurrencyRatesPage extends Form {
     public void selectDay(int day) {
         List<ILink> days = getElementFactory().findElements(
                 By.xpath("//div[@class='datepicker']//td[@class='day']"), "Day in data picker", ILink.class);
+        if(day > days.size())
+            try {
+                throw new IndexOutOfBoundsException();
+            } catch (IndexOutOfBoundsException exception) {
+                SmartLogger.logError("Uncorrected day");
+            }
         days.get(--day).click();
     }
 
@@ -366,6 +373,12 @@ public class CurrencyRatesPage extends Form {
         List<ILink> months = getElementFactory().findElements(
                 By.xpath( "//div[@class='datepicker']//span[@class='month']"),
                 "Month in data picker", ILink.class);
+        if(month > months.size())
+            try {
+                throw new IndexOutOfBoundsException();
+            } catch (IndexOutOfBoundsException exception) {
+                SmartLogger.logError("Uncorrected month");
+            }
         months.get(--month).click();
     }
 
